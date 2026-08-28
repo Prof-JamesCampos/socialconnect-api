@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface BeneficiarioRepository extends JpaRepository<Beneficiario, Long> {
 
     Optional<Beneficiario> findByCpf(String cpf);
+
     List<Beneficiario> findByNomeContainingIgnoreCase(String nome);
+
     boolean existsByCpf(String cpf);
 }

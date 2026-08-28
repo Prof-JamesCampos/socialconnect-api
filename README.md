@@ -3,7 +3,7 @@
 > API RESTful de gestão para instituições sociais (ONGs, bancos de alimentos,
 > CRAS, abrigos). Conecta doadores, voluntários e beneficiários.
 
-**Disciplina:** ITE005 — Tópicos Especiais em Sistemas para Internet III
+**Disciplina:** Tópicos Especiais em Sistemas para Internet III
 **Stack:** Java 21 · Spring Boot 4.1.1 · JPA · H2 (dev) · PostgreSQL (prod)
 
 ---
