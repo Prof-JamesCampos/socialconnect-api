@@ -38,7 +38,8 @@ public class BeneficiarioController {
     }
 
     @PostMapping
-    public ResponseEntity<BeneficiarioResponseDTO> criar(@Valid @RequestBody BeneficiarioRequestDTO dto) {
+    public ResponseEntity<BeneficiarioResponseDTO> criar(
+            @Valid @RequestBody BeneficiarioRequestDTO dto) {
         BeneficiarioResponseDTO salvo = service.criar(dto);
         URI location = URI.create("/api/v1/beneficiarios/" + salvo.idBeneficiario());
         return ResponseEntity.created(location).body(salvo);
