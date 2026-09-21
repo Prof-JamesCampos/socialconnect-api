@@ -4,9 +4,11 @@ import br.com.socialconnect.api.beneficiarios.dto.BeneficiarioRequestDTO;
 import br.com.socialconnect.api.beneficiarios.dto.BeneficiarioResponseDTO;
 import br.com.socialconnect.api.beneficiarios.model.Beneficiario;
 import br.com.socialconnect.api.beneficiarios.repository.BeneficiarioRepository;
+import br.com.socialconnect.api.exception.RecursoNaoEncontradoException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDate;
 
@@ -36,8 +38,8 @@ public class BeneficiarioService {
 
     public BeneficiarioResponseDTO buscarPorId(Long idBeneficiario) {
         return repository.findById(idBeneficiario)
-                .map(this::toResponseDTO)
-                .orElseThrow(() -> new RuntimeException("Beneficiário não encontrado: " + idBeneficiario));
+                .map(this::toResponseDTO) // (ou o mapeamento que você usa aí)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Beneficiário não encontrado: " + idBeneficiario));
     }
 
     public BeneficiarioResponseDTO criar(BeneficiarioRequestDTO dto) {

@@ -12,7 +12,7 @@ public record DoacaoRequestDTO(
         Long idDoador,
 
         @NotNull(message = "Data da doação é obrigatória")
-        @DataNaoFutura  // Sua validação customizada!
+        @DataNaoFutura  // Validação customizada!
         LocalDate dataDoacao,
 
         @DecimalMin(value = "0.01", message = "Valor deve ser maior que zero")

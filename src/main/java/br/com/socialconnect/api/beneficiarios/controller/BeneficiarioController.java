@@ -32,10 +32,18 @@ public class BeneficiarioController {
         return ResponseEntity.ok(service.listar(nome, cpf, pageable));
     }
 
-    @GetMapping("/{idBeneficiario}")
-    public ResponseEntity<BeneficiarioResponseDTO> buscarPorId(@PathVariable Long idBeneficiario) {
-        return ResponseEntity.ok(service.buscarPorId(idBeneficiario));
-    }
+//    @GetMapping("/{idBeneficiario}")
+//    public ResponseEntity<BeneficiarioResponseDTO> buscarPorId(@PathVariable Long idBeneficiario) {
+//        //return ResponseEntity.ok(service.buscarPorId(idBeneficiario));
+//        return service.buscarPorId(idBeneficiario) // ou repository.findById(id)
+//                .map(ResponseEntity::ok)
+//                .orElse(ResponseEntity.notFound().build());
+//    }
+@GetMapping("/{idBeneficiario}")
+public ResponseEntity<BeneficiarioResponseDTO> buscarPorId(@PathVariable("idBeneficiario") Long idBeneficiario) {
+    BeneficiarioResponseDTO response = service.buscarPorId(idBeneficiario);
+    return ResponseEntity.ok(response);
+}
 
     @PostMapping
     public ResponseEntity<BeneficiarioResponseDTO> criar(
@@ -46,7 +54,7 @@ public class BeneficiarioController {
     }
 
     @DeleteMapping("/{idBeneficiario}")
-    public ResponseEntity<Void> deletar(@PathVariable Long idBeneficiario) {
+    public ResponseEntity<Void> deletar(@PathVariable("idBeneficiario") Long idBeneficiario) {
         service.deletar(idBeneficiario);
         return ResponseEntity.noContent().build();
     }

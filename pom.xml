@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>4.1.1</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 
 	<groupId>br.com.socialconnect</groupId>
@@ -19,36 +19,35 @@
 
 	<properties>
 		<java.version>21</java.version>
-		<!-- Força uma versão estável do Flyway que o Spring Boot gerencia perfeitamente -->
 		<flyway.version>10.17.0</flyway.version>
 	</properties>
 
 	<dependencies>
-		<!-- 1. WEB (Corrigido: o nome correto no Spring Boot é 'web', não 'webmvc') -->
+		<!-- 1. WEB -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- 2. JPA (CRUCIAL: É este que contém o pacote org.springframework.data.domain) -->
+		<!-- 2. JPA -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<!-- 3. Validação (Bean Validation) -->
+		<!-- 3. Validação -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
-		<!-- 4. Flyway (APENAS o core. O suporte a H2 e PostgreSQL já vem embutido nele) -->
+		<!-- 4. Flyway -->
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 		</dependency>
 
-		<!-- 5. Banco de Dados (Runtime) -->
+		<!-- 5. Banco de Dados -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -67,24 +66,34 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- 7. OpenAPI / Swagger UI -->
+		<!-- 7. OpenAPI / Swagger UI (Compatível com Spring Boot 4.x) -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.6.0</version> <!-- Versão estável e compatível -->
+			<version>3.1.0</version>
 		</dependency>
 
-		<!-- 8. Testes (Unificado no starter padrão, que já inclui JUnit, Mockito, etc.) -->
+		<!-- 8. Testes (MODULARIZADOS NO SPRING BOOT 4.x) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- ✅ NOVO: Contém @AutoConfigureTestDatabase e @DataJpaTest -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Testcontainers (versões gerenciadas automaticamente pelo BOM do Spring Boot 4.1.1) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-testcontainers</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Testcontainers com versões explícitas (obrigatório para evitar erro do Maven) -->
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>junit-jupiter</artifactId>
@@ -95,6 +104,12 @@
 			<groupId>org.testcontainers</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>1.19.3</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Starter para testes MVC / MockMvc no Spring Boot 4 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
