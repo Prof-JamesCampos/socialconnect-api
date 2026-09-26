@@ -5,7 +5,9 @@ import br.com.socialconnect.api.beneficiarios.dto.BeneficiarioResponseDTO;
 import br.com.socialconnect.api.beneficiarios.service.BeneficiarioService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,16 +25,40 @@ public class BeneficiarioController {
     }
 
     // ✅ Chamando o método "listar" com os 3 parâmetros exatos
+//    @GetMapping
+//    public ResponseEntity<Page<BeneficiarioResponseDTO>> listar(
+//            @RequestParam(required = false) String nome,
+//            @RequestParam(required = false) String cpf,
+//            @PageableDefault(size = 10, sort = "idBeneficiario", direction = Sort.Direction.ASC) Pageable pageable) {
+//
+//        return ResponseEntity.ok(service.listar(nome, cpf, pageable));
+//    }
     @GetMapping
     public ResponseEntity<Page<BeneficiarioResponseDTO>> listar(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) String cpf,
-            @PageableDefault(size = 10, sort = "nome") Pageable pageable) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "idBeneficiario,asc") String sort) {
+
+        // Sanitiza o parâmetro sort (remove colchetes, aspas, espaços)
+        String sortLimpo = sort.replaceAll("[\\[\\]\" ]", "");
+
+        // Divide em campo e direção
+        String[] sortParts = sortLimpo.split(",");
+        String campo = sortParts[0];
+        Sort.Direction direcao = sortParts.length > 1 && sortParts[1].equalsIgnoreCase("desc")
+                ? Sort.Direction.DESC
+                : Sort.Direction.ASC;
+
+        // Cria o Pageable manualmente
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direcao, campo));
 
         return ResponseEntity.ok(service.listar(nome, cpf, pageable));
     }
 
-//    @GetMapping("/{idBeneficiario}")
+
+    //    @GetMapping("/{idBeneficiario}")
 //    public ResponseEntity<BeneficiarioResponseDTO> buscarPorId(@PathVariable Long idBeneficiario) {
 //        //return ResponseEntity.ok(service.buscarPorId(idBeneficiario));
 //        return service.buscarPorId(idBeneficiario) // ou repository.findById(id)
